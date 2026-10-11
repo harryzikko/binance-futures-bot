@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../services/backend_api_service.dart';
 import '../../services/binance_api_service.dart';
 import 'tabs/positions_overview_tab.dart';
 import 'tabs/orderbook_chart_tab.dart';
@@ -24,8 +26,105 @@ class _MainScreenState extends State<MainScreen> {
     'Rui Ro Webhook',
   ];
 
+  void _showServerConfigDialog(BuildContext context, BackendApiService backend) {
+    final textController = TextEditingController(text: backend.serverUrl);
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: AppColors.surfaceContainerLow,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (ctx) => Padding(
+        padding: EdgeInsets.only(
+          left: 18,
+          right: 18,
+          top: 18,
+          bottom: MediaQuery.of(ctx).viewInsets.bottom + 24,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Row(
+                  children: [
+                    Icon(Icons.dns, color: AppColors.primaryContainer, size: 20),
+                    SizedBox(width: 8),
+                    Text(
+                      'Cấu Hình Server Backend',
+                      style: TextStyle(color: AppColors.onSurface, fontSize: 16, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
+                IconButton(
+                  icon: const Icon(Icons.close, color: AppColors.onSurfaceVariant),
+                  onPressed: () => Navigator.pop(ctx),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            const Text(
+              'Đồng bộ dữ liệu thời gian thực giữa App iOS & Bot Server:',
+              style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 12),
+            ),
+            const SizedBox(height: 6),
+            Container(
+              padding: const EdgeInsets.all(10),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceContainer,
+                borderRadius: BorderRadius.circular(8),
+              ),
+              child: const Text(
+                '• Cùng mạng Wi-Fi: Dùng IP máy tính (VD: http://192.168.1.15:8000)\n• Trên Simulator: Dùng http://localhost:8000\n• Từ xa: Dùng Ngrok / Cloudflare Tunnel URL',
+                style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 11, height: 1.4),
+              ),
+            ),
+            const SizedBox(height: 12),
+            TextField(
+              controller: textController,
+              style: const TextStyle(color: AppColors.onSurface, fontFamily: 'monospace', fontSize: 13),
+              decoration: InputDecoration(
+                filled: true,
+                fillColor: AppColors.surfaceContainerLowest,
+                hintText: 'http://192.168.1.xxx:8000',
+                hintStyle: const TextStyle(color: AppColors.onSurfaceMuted),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(10), borderSide: BorderSide.none),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
+              ),
+            ),
+            const SizedBox(height: 14),
+            ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primaryContainer,
+                foregroundColor: Colors.black,
+                minimumSize: const Size.fromHeight(44),
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+              ),
+              onPressed: () {
+                backend.updateServerUrl(textController.text);
+                Navigator.pop(ctx);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    backgroundColor: AppColors.surfaceContainerHigh,
+                    content: Text('Đang kết nối: ${textController.text}'),
+                  ),
+                );
+              },
+              child: const Text('Lưu & Kết Nối Đồng Bộ Ngay', style: TextStyle(fontWeight: FontWeight.bold)),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
+    final backend = context.watch<BackendApiService>();
+
     final List<Widget> pages = [
       PositionsOverviewTab(binanceService: _binanceService),
       OrderBookChartTab(binanceService: _binanceService),
@@ -90,39 +189,77 @@ class _MainScreenState extends State<MainScreen> {
                   ],
                 ),
 
-                // Latency Badge & Profile
+                // Server Sync Badge & Latency
                 Row(
                   children: [
+                    // Backend Sync status chip
+                    GestureDetector(
+                      onTap: () => _showServerConfigDialog(context, backend),
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
+                        decoration: BoxDecoration(
+                          color: backend.isConnected ? AppColors.bullishBg : AppColors.errorContainer.withValues(alpha: 0.3),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: backend.isConnected ? AppColors.bullish.withValues(alpha: 0.4) : AppColors.bearish.withValues(alpha: 0.4),
+                            width: 0.8,
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              width: 6,
+                              height: 6,
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: backend.isConnected ? AppColors.bullish : AppColors.bearish,
+                              ),
+                            ),
+                            const SizedBox(width: 4),
+                            Text(
+                              backend.isConnected ? backend.tradingMode.toUpperCase() : 'IP SERVER',
+                              style: TextStyle(
+                                color: backend.isConnected ? AppColors.bullish : AppColors.bearish,
+                                fontSize: 9,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 6),
+                    // Latency Badge
                     Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                      padding: const EdgeInsets.symmetric(horizontal: 7, vertical: 4),
                       decoration: BoxDecoration(
                         color: AppColors.surfaceContainerHigh,
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Row(
                         children: [
-                          Container(
-                            width: 6,
-                            height: 6,
-                            decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.bullish),
-                          ),
-                          const SizedBox(width: 5),
+                          const Icon(Icons.bolt, color: AppColors.primaryContainer, size: 11),
+                          const SizedBox(width: 2),
                           Text(
                             '${_binanceService.lastPingMs}ms',
-                            style: const TextStyle(color: AppColors.bullish, fontSize: 10, fontWeight: FontWeight.bold),
+                            style: const TextStyle(color: AppColors.primaryContainer, fontSize: 9, fontWeight: FontWeight.bold),
                           ),
                         ],
                       ),
                     ),
-                    const SizedBox(width: 8),
-                    Container(
-                      width: 30,
-                      height: 30,
-                      decoration: const BoxDecoration(
-                        color: AppColors.primary,
-                        shape: BoxShape.circle,
+                    const SizedBox(width: 6),
+                    // Settings icon to configure backend IP
+                    GestureDetector(
+                      onTap: () => _showServerConfigDialog(context, backend),
+                      child: Container(
+                        width: 28,
+                        height: 28,
+                        decoration: const BoxDecoration(
+                          color: AppColors.surfaceContainerHigh,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(Icons.settings, color: AppColors.onSurface, size: 15),
                       ),
-                      child: const Icon(Icons.person, color: AppColors.onPrimary, size: 18),
                     ),
                   ],
                 ),

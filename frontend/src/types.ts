@@ -124,6 +124,7 @@ export interface BotStatus {
   last_signal?: string | null;
   last_signal_time?: string | null;
   daily_loss_hit: boolean;
+  gemini_regime?: GeminiRegimeState | null;
   ticker?: {
     symbol: string;
     price: number;

@@ -8,10 +8,17 @@ interface MobileRiskWebhookTabProps {
 }
 
 export const MobileRiskWebhookTab: React.FC<MobileRiskWebhookTabProps> = ({
-  status: _status,
+  status,
   onPanicCloseAll,
   isPanicking: _isPanicking = false,
 }) => {
+  const accountBalance = status?.balance_usdt ?? 0;
+  const marginUsed = status?.margin_used ?? 0;
+  const marginRatio = accountBalance > 0 ? (marginUsed / accountBalance) * 100 : 0;
+  const dailyPnl = status?.daily_pnl ?? 0;
+  const activePositions = status?.active_positions_count ?? 0;
+  const dailyLossHit = status?.daily_loss_hit ?? false;
+
   const [rules, setRules] = useState({
     maxLossBreaker: true,
     marginHedge: true,
@@ -96,7 +103,7 @@ export const MobileRiskWebhookTab: React.FC<MobileRiskWebhookTabProps> = ({
             </div>
             <div className="flex items-center gap-1 px-2 py-0.5 rounded bg-error-container/40 text-on-error-container font-['Manrope'] text-[10px] font-bold">
               <span className="material-symbols-outlined text-[13px]">gpp_maybe</span>
-              <span>ARMED · 4 POSITIONS</span>
+              <span>ARMED · {activePositions} VỊ THẾ</span>
             </div>
           </div>
 
@@ -109,7 +116,7 @@ export const MobileRiskWebhookTab: React.FC<MobileRiskWebhookTabProps> = ({
               </h2>
             </div>
             <p className="font-['Manrope'] text-[12px] text-on-surface-variant leading-relaxed">
-              Hủy toàn bộ lệnh chờ & Đóng ngay <strong className="text-error font-semibold">4 vị thế</strong> theo giá thị trường (Market) khi phát hiện sự cố thanh khoản hoặc biến động cực đoan!
+              Hủy toàn bộ lệnh chờ & Đóng ngay <strong className="text-error font-semibold">{activePositions} vị thế</strong> theo giá thị trường (Market) khi phát hiện sự cố thanh khoản hoặc biến động cực đoan!
             </p>
           </div>
 
@@ -163,7 +170,7 @@ export const MobileRiskWebhookTab: React.FC<MobileRiskWebhookTabProps> = ({
                 <span className="material-symbols-outlined text-[12px] text-primary-container">lock</span>
                 Xác thực 2 lớp: Soft-Arm
               </span>
-              <span className="text-error">Ước tính phí: ~$4.8 USDT</span>
+              <span className="text-error">Ước tính phí: ~$0.5 - 2 USDT</span>
             </div>
           </div>
         </div>
@@ -177,18 +184,22 @@ export const MobileRiskWebhookTab: React.FC<MobileRiskWebhookTabProps> = ({
             <span className="font-['Manrope'] text-[10px] uppercase tracking-wider font-bold">
               Hạn Mức Lỗ Hôm Nay
             </span>
-            <span className="material-symbols-outlined text-[14px] text-tertiary">verified_user</span>
+            <span className={`material-symbols-outlined text-[14px] ${dailyLossHit ? 'text-error' : 'text-tertiary'}`}>
+              {dailyLossHit ? 'error' : 'verified_user'}
+            </span>
           </div>
           <div className="flex items-baseline gap-1 font-['JetBrains_Mono']">
-            <span className="text-[18px] text-on-surface font-bold">-$1,840</span>
-            <span className="text-[11px] text-on-surface-variant">/ -$6.2k</span>
+            <span className={`text-[16px] font-bold ${dailyPnl >= 0 ? 'text-tertiary' : 'text-error'}`}>
+              {dailyPnl >= 0 ? `+${dailyPnl.toFixed(2)}` : dailyPnl.toFixed(2)}
+            </span>
+            <span className="text-[10px] text-on-surface-variant">USDT</span>
           </div>
           {/* Mini Progress Gauge */}
           <div className="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
-            <div className="h-full bg-tertiary rounded-full" style={{ width: '29.6%' }} />
+            <div className={`h-full rounded-full ${dailyLossHit ? 'bg-error' : 'bg-tertiary'}`} style={{ width: dailyLossHit ? '100%' : '15%' }} />
           </div>
-          <span className="font-['JetBrains_Mono'] text-[10px] text-tertiary font-medium">
-            An toàn: 29.6% ngưỡng cắt
+          <span className={`font-['JetBrains_Mono'] text-[10px] font-medium ${dailyLossHit ? 'text-error' : 'text-tertiary'}`}>
+            {dailyLossHit ? 'Đã chạm ngưỡng cắt lỗ' : `An toàn: Phiên ${status?.mode || 'testnet'}`}
           </span>
         </div>
 
@@ -201,15 +212,15 @@ export const MobileRiskWebhookTab: React.FC<MobileRiskWebhookTabProps> = ({
             <span className="material-symbols-outlined text-[14px] text-primary-container">shield_with_heart</span>
           </div>
           <div className="flex items-baseline gap-1 font-['JetBrains_Mono']">
-            <span className="text-[18px] text-primary-container font-bold">28.4%</span>
-            <span className="text-[11px] text-on-surface-variant">/ max 50%</span>
+            <span className="text-[16px] text-primary-container font-bold">{marginRatio.toFixed(1)}%</span>
+            <span className="text-[10px] text-on-surface-variant">/ max 50%</span>
           </div>
           {/* Mini Progress Gauge */}
           <div className="w-full h-1.5 rounded-full bg-surface-container-highest overflow-hidden">
-            <div className="h-full bg-primary-container rounded-full" style={{ width: '56.8%' }} />
+            <div className="h-full bg-primary-container rounded-full" style={{ width: `${Math.min(100, (marginRatio / 50) * 100)}%` }} />
           </div>
           <span className="font-['JetBrains_Mono'] text-[10px] text-primary-container font-medium">
-            Đệm an toàn còn +21.6%
+            Đệm an toàn còn +{Math.max(0, 50 - marginRatio).toFixed(1)}%
           </span>
         </div>
       </div>

@@ -18,75 +18,6 @@ class PositionsOverviewTab extends StatefulWidget {
 class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
   final currencyFmt = NumberFormat('#,##0.00');
 
-  List<PositionData> _getDisplayPositions(BackendApiService backend) {
-    if (backend.positions.isNotEmpty) {
-      return backend.positions;
-    }
-    // Real market baseline positions if backend has no active trades yet
-    return [
-      PositionData(
-        symbol: 'BTCUSDT',
-        side: 'LONG',
-        size: 0.850,
-        leverage: 20,
-        entryPrice: 94120.00,
-        markPrice: 95680.50,
-        liquidationPrice: 89450.00,
-        unrealizedPnl: 1326.42,
-        roePercent: 33.15,
-        margin: 4001.10,
-        takeProfit: 98500.00,
-        stopLoss: 92800.00,
-        tpProgress: 0.65,
-      ),
-      PositionData(
-        symbol: 'ETHUSDT',
-        side: 'SHORT',
-        size: 12.50,
-        leverage: 15,
-        entryPrice: 3420.50,
-        markPrice: 3385.20,
-        liquidationPrice: 3640.00,
-        unrealizedPnl: 441.25,
-        roePercent: 15.48,
-        margin: 2850.41,
-        takeProfit: 3280.00,
-        stopLoss: 3495.00,
-        tpProgress: 0.42,
-      ),
-      PositionData(
-        symbol: 'SOLUSDT',
-        side: 'LONG',
-        size: 85.0,
-        leverage: 25,
-        entryPrice: 182.40,
-        markPrice: 191.60,
-        liquidationPrice: 175.10,
-        unrealizedPnl: 782.00,
-        roePercent: 126.30,
-        margin: 620.16,
-        takeProfit: 198.00,
-        stopLoss: 178.50,
-        tpProgress: 0.78,
-      ),
-      PositionData(
-        symbol: 'BNBUSDT',
-        side: 'LONG',
-        size: 15.0,
-        leverage: 10,
-        entryPrice: 625.00,
-        markPrice: 638.40,
-        liquidationPrice: 565.00,
-        unrealizedPnl: 201.00,
-        roePercent: 21.44,
-        margin: 937.50,
-        takeProfit: 660.00,
-        stopLoss: 610.00,
-        tpProgress: 0.52,
-      ),
-    ];
-  }
-
   void _showEmergencyDialog(BuildContext context, BackendApiService backend) {
     showDialog(
       context: context,
@@ -100,9 +31,9 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
             Text('XÁC NHẬN ĐÓNG HẾT', style: TextStyle(color: AppColors.onSurface, fontSize: 16, fontWeight: FontWeight.bold)),
           ],
         ),
-        content: const Text(
-          'Hành động này sẽ đóng ngay toàn bộ 4 vị thế theo giá thị trường (Market) và tạm dừng bot. Bạn có chắc chắn không?',
-          style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 13),
+        content: Text(
+          'Hành động này sẽ gửi lệnh đóng ngay toàn bộ ${backend.positions.length} vị thế thật theo giá thị trường (Market) và tạm dừng bot. Bạn có chắc chắn không?',
+          style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 13),
         ),
         actions: [
           TextButton(
@@ -117,7 +48,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
               ScaffoldMessenger.of(context).showSnackBar(
                 const SnackBar(
                   backgroundColor: AppColors.bearish,
-                  content: Text('Đã kích hoạt đóng khẩn cấp toàn bộ vị thế!'),
+                  content: Text('Đã kích hoạt đóng khẩn cấp toàn bộ vị thế trên Binance!'),
                 ),
               );
             },
@@ -131,11 +62,13 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
   @override
   Widget build(BuildContext context) {
     final backend = context.watch<BackendApiService>();
-    final positions = _getDisplayPositions(backend);
+    final positions = backend.positions;
 
     final totalBalance = backend.totalMarginBalance;
     final uPnl = backend.unrealizedPnl;
     final realizedToday = backend.realizedPnlToday;
+    final marginUsed = backend.marginUsed;
+    final marginBuffer = backend.marginBufferPercent;
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -143,7 +76,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // 1. Master Account Overview Card
+          // 1. Master Account Overview Card (100% Real Data)
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
@@ -161,13 +94,13 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Row(
+                    Row(
                       children: [
-                        Icon(Icons.account_balance_wallet, color: AppColors.primaryContainer, size: 16),
-                        SizedBox(width: 6),
+                        const Icon(Icons.account_balance_wallet, color: AppColors.primaryContainer, size: 16),
+                        const SizedBox(width: 6),
                         Text(
-                          'TỔNG TÀI SẢN KÝ QUỸ',
-                          style: TextStyle(
+                          'TỔNG TÀI SẢN KÝ QUỸ (${backend.tradingMode.toUpperCase()})',
+                          style: const TextStyle(
                             color: AppColors.onSurfaceVariant,
                             fontSize: 11,
                             fontWeight: FontWeight.bold,
@@ -184,11 +117,22 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                       ),
                       child: Row(
                         children: [
-                          Container(width: 6, height: 6, decoration: const BoxDecoration(shape: BoxShape.circle, color: AppColors.bullish)),
+                          Container(
+                            width: 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: backend.isConnected ? AppColors.bullish : AppColors.primaryContainer,
+                            ),
+                          ),
                           const SizedBox(width: 5),
                           Text(
-                            'Live ${widget.binanceService.lastPingMs}ms',
-                            style: const TextStyle(color: AppColors.bullish, fontSize: 10, fontWeight: FontWeight.bold),
+                            backend.isConnected ? 'Live ${widget.binanceService.lastPingMs}ms' : 'Offline',
+                            style: TextStyle(
+                              color: backend.isConnected ? AppColors.bullish : AppColors.primaryContainer,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ],
                       ),
@@ -198,7 +142,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
 
                 const SizedBox(height: 10),
 
-                // Main Value
+                // Main Real Balance
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
@@ -227,7 +171,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
 
                 const SizedBox(height: 12),
 
-                // PnL 2-Grid
+                // PnL 2-Grid (100% Real from Backend Engine)
                 Row(
                   children: [
                     Expanded(
@@ -240,23 +184,42 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const Row(
+                            Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text('Lãi Chưa Chốt (uPnL)', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 10)),
-                                Icon(Icons.trending_up, color: AppColors.bullish, size: 14),
+                                const Text('Lãi Chưa Chốt (uPnL)', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 10)),
+                                Icon(
+                                  uPnl >= 0 ? Icons.trending_up : Icons.trending_down,
+                                  color: uPnl >= 0 ? AppColors.bullish : AppColors.bearish,
+                                  size: 14,
+                                ),
                               ],
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              '+${currencyFmt.format(uPnl)} USDT',
-                              style: const TextStyle(color: AppColors.bullish, fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'monospace'),
+                              '${uPnl >= 0 ? '+' : ''}${currencyFmt.format(uPnl)} USDT',
+                              style: TextStyle(
+                                color: uPnl >= 0 ? AppColors.bullish : AppColors.bearish,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'monospace',
+                              ),
                             ),
                             const SizedBox(height: 2),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                              decoration: BoxDecoration(color: AppColors.bullishBg, borderRadius: BorderRadius.circular(3)),
-                              child: const Text('+49.19% ROE', style: TextStyle(color: AppColors.bullish, fontSize: 9, fontWeight: FontWeight.bold)),
+                              decoration: BoxDecoration(
+                                color: uPnl >= 0 ? AppColors.bullishBg : AppColors.bearishBg,
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Text(
+                                '${totalBalance > 0 ? ((uPnl / totalBalance) * 100).toStringAsFixed(2) : '0.00'}% ROE',
+                                style: TextStyle(
+                                  color: uPnl >= 0 ? AppColors.bullish : AppColors.bearish,
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ],
                         ),
@@ -282,11 +245,19 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              '+${currencyFmt.format(realizedToday)} USDT',
-                              style: const TextStyle(color: AppColors.onSurface, fontSize: 13, fontWeight: FontWeight.bold, fontFamily: 'monospace'),
+                              '${realizedToday >= 0 ? '+' : ''}${currencyFmt.format(realizedToday)} USDT',
+                              style: TextStyle(
+                                color: realizedToday >= 0 ? AppColors.bullish : AppColors.bearish,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                                fontFamily: 'monospace',
+                              ),
                             ),
                             const SizedBox(height: 2),
-                            const Text('+2.82% (24h ròng)', style: TextStyle(color: AppColors.bullish, fontSize: 9, fontWeight: FontWeight.w600)),
+                            Text(
+                              'Phiên ${backend.tradingMode}',
+                              style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9),
+                            ),
                           ],
                         ),
                       ),
@@ -305,35 +276,42 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                   ),
                   child: Column(
                     children: [
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Row(
+                          const Row(
                             children: [
                               Icon(Icons.verified_user, color: AppColors.bullish, size: 14),
                               SizedBox(width: 5),
                               Text('Đệm Thanh Lý (Margin Buffer)', style: TextStyle(color: AppColors.onSurface, fontSize: 11, fontWeight: FontWeight.bold)),
                             ],
                           ),
-                          Text('RẤT AN TOÀN (26.4%)', style: TextStyle(color: AppColors.bullish, fontSize: 10, fontWeight: FontWeight.bold)),
+                          Text(
+                            '${marginBuffer > 70 ? 'RẤT AN TOÀN' : 'CẢNH BÁO'} (${marginBuffer.toStringAsFixed(1)}%)',
+                            style: TextStyle(
+                              color: marginBuffer > 70 ? AppColors.bullish : AppColors.primaryContainer,
+                              fontSize: 10,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 6),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(3),
                         child: LinearProgressIndicator(
-                          value: backend.marginBufferPercent / 100,
+                          value: (marginBuffer / 100).clamp(0.0, 1.0),
                           backgroundColor: AppColors.surfaceContainerHighest,
-                          valueColor: const AlwaysStoppedAnimation(AppColors.bullish),
+                          valueColor: AlwaysStoppedAnimation(marginBuffer > 70 ? AppColors.bullish : AppColors.primaryContainer),
                           minHeight: 5,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Ký Quỹ Duy Trì: 4,120 USDT', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9, fontFamily: 'monospace')),
-                          Text('Khoảng Cách Cháy: -25.5%', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9, fontFamily: 'monospace')),
+                          Text('Ký Quỹ Đang Dùng: ${currencyFmt.format(marginUsed)} USDT', style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9, fontFamily: 'monospace')),
+                          Text('Khả Dụng: ${currencyFmt.format(backend.availableMargin)} USDT', style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9, fontFamily: 'monospace')),
                         ],
                       ),
                     ],
@@ -342,7 +320,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
 
                 const SizedBox(height: 12),
 
-                // 3 Operational Buttons
+                // 3 Action Buttons
                 Row(
                   children: [
                     Expanded(
@@ -353,7 +331,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
-                        onPressed: () => _showEmergencyDialog(context, backend),
+                        onPressed: positions.isEmpty ? null : () => _showEmergencyDialog(context, backend),
                         icon: const Icon(Icons.cancel, size: 14),
                         label: const Text('Đóng Hết', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
                       ),
@@ -367,9 +345,14 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                           padding: const EdgeInsets.symmetric(vertical: 10),
                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                         ),
-                        onPressed: () {},
-                        icon: const Icon(Icons.add_card, color: AppColors.primaryContainer, size: 14),
-                        label: const Text('Nạp Ký Quỹ', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
+                        onPressed: () {
+                          backend.fetchBackendStatus();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Đang làm mới dữ liệu từ server backend...'), duration: Duration(seconds: 1)),
+                          );
+                        },
+                        icon: const Icon(Icons.refresh, color: AppColors.primaryContainer, size: 14),
+                        label: const Text('Làm Mới', style: TextStyle(fontSize: 11, fontWeight: FontWeight.bold)),
                       ),
                     ),
                     const SizedBox(width: 6),
@@ -394,7 +377,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
 
           const SizedBox(height: 12),
 
-          // 2. Live Bot Telemetry Bar
+          // 2. Real Telemetry Bar
           Container(
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
             decoration: BoxDecoration(
@@ -420,24 +403,37 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                         Row(
                           children: [
                             Text(
-                              '${backend.activeBotCount}/${backend.totalBotCount} Bots Hoạt Động',
+                              backend.isBotRunning ? 'Bot Đang Hoạt Động' : 'Bot Đang Tạm Dừng',
                               style: const TextStyle(color: AppColors.onSurface, fontSize: 11, fontWeight: FontWeight.bold),
                             ),
                             const SizedBox(width: 6),
                             Container(
                               padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 1),
-                              decoration: BoxDecoration(color: AppColors.bullishBg, borderRadius: BorderRadius.circular(3)),
-                              child: const Text('ỔN ĐỊNH', style: TextStyle(color: AppColors.bullish, fontSize: 8, fontWeight: FontWeight.bold)),
+                              decoration: BoxDecoration(
+                                color: backend.isBotRunning ? AppColors.bullishBg : AppColors.primaryContainer.withValues(alpha: 0.15),
+                                borderRadius: BorderRadius.circular(3),
+                              ),
+                              child: Text(
+                                backend.isBotRunning ? 'RUNNING' : 'STANDBY',
+                                style: TextStyle(
+                                  color: backend.isBotRunning ? AppColors.bullish : AppColors.primaryContainer,
+                                  fontSize: 8,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
                             ),
                           ],
                         ),
-                        const Text('Binance Futures USDS-M • WebSocket Live', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9)),
+                        Text(
+                          'Chiến lược: ${backend.strategyName} • Mode ${backend.tradingMode}',
+                          style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9),
+                        ),
                       ],
                     ),
                   ],
                 ),
                 Text(
-                  '${backend.apiRequestsPerMin}/1200\nAPI req/m',
+                  '${positions.length} vị thế\nWin ${backend.winRate.toStringAsFixed(0)}%',
                   textAlign: TextAlign.right,
                   style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9, fontFamily: 'monospace'),
                 ),
@@ -447,7 +443,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
 
           const SizedBox(height: 14),
 
-          // 3. Positions Section Header
+          // 3. Section Header: Real Active Positions
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -464,19 +460,42 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                   ),
                 ],
               ),
-              const Row(
-                children: [
-                  Text('Lọc Bot', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 10)),
-                  Icon(Icons.tune, color: AppColors.onSurfaceVariant, size: 14),
-                ],
+              Text(
+                backend.regimeVn,
+                style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 10),
               ),
             ],
           ),
 
           const SizedBox(height: 8),
 
-          // 4. Position Cards
-          ...positions.map((pos) => _buildPositionCard(pos)),
+          // 4. Real Position Cards or Clean Empty State
+          if (positions.isEmpty)
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceContainerLow,
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: AppColors.surfaceContainerHigh),
+              ),
+              child: Column(
+                children: [
+                  const Icon(Icons.verified_user, color: AppColors.bullish, size: 36),
+                  const SizedBox(height: 8),
+                  const Text('Không Có Vị Thế Nào Đang Mở', style: TextStyle(color: AppColors.onSurface, fontSize: 14, fontWeight: FontWeight.bold)),
+                  const SizedBox(height: 4),
+                  Text(
+                    backend.isBotRunning
+                        ? 'Bot thuật toán đang quét 200 cặp Binance Futures và tự động mở vị thế khi phát hiện tín hiệu an toàn.'
+                        : 'Tất cả vốn đang an toàn 100%. Bật bot để bắt đầu quét và giao dịch tự động.',
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 11, height: 1.4),
+                  ),
+                ],
+              ),
+            )
+          else
+            ...positions.map((pos) => _buildPositionCard(pos)),
         ],
       ),
     );
@@ -485,6 +504,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
   Widget _buildPositionCard(PositionData pos) {
     final isLong = pos.isLong;
     final sideColor = isLong ? AppColors.bullish : AppColors.bearish;
+    final cleanSymbol = pos.symbol.split('/')[0].split(':')[0].replaceAll('USDT', '');
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -508,7 +528,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                     decoration: BoxDecoration(color: AppColors.surfaceContainer, borderRadius: BorderRadius.circular(6)),
                     alignment: Alignment.center,
                     child: Text(
-                      pos.symbol.startsWith('BTC') ? '₿' : pos.symbol.startsWith('ETH') ? 'Ξ' : '◆',
+                      cleanSymbol.startsWith('BTC') ? '₿' : cleanSymbol.startsWith('ETH') ? 'Ξ' : '◆',
                       style: const TextStyle(color: AppColors.primaryContainer, fontWeight: FontWeight.bold, fontSize: 13),
                     ),
                   ),
@@ -530,7 +550,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                           ),
                         ],
                       ),
-                      Text('Khối lượng: ${pos.size} ${pos.symbol.replaceAll('USDT', '')}', style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9)),
+                      Text('Khối lượng: ${pos.size} $cleanSymbol', style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9)),
                     ],
                   ),
                 ],
@@ -562,7 +582,7 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
               children: [
                 _buildPriceCol('GIÁ VÀO', currencyFmt.format(pos.entryPrice)),
                 _buildPriceCol('MARK PRICE', currencyFmt.format(pos.markPrice), color: sideColor),
-                _buildPriceCol('GIÁ THANH LÝ', currencyFmt.format(pos.liquidationPrice), color: AppColors.bearish),
+                _buildPriceCol('GIÁ THANH LÝ', pos.liquidationPrice > 0 ? currencyFmt.format(pos.liquidationPrice) : 'N/A', color: AppColors.bearish),
               ],
             ),
           ),
@@ -588,52 +608,6 @@ class _PositionsOverviewTabState extends State<PositionsOverviewTab> {
                   backgroundColor: AppColors.surfaceContainerHighest,
                   valueColor: AlwaysStoppedAnimation(sideColor),
                   minHeight: 4,
-                ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 8),
-
-          // Action Buttons
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.onSurface,
-                    side: const BorderSide(color: AppColors.surfaceContainerHighest),
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                  ),
-                  onPressed: () {},
-                  child: const Text('Đóng 50%', style: TextStyle(fontSize: 10)),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.bearish,
-                    side: const BorderSide(color: AppColors.bearish),
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                  ),
-                  onPressed: () {},
-                  child: const Text('Đóng 100%', style: TextStyle(fontSize: 10, fontWeight: FontWeight.bold)),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: OutlinedButton(
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primaryContainer,
-                    side: const BorderSide(color: AppColors.primaryContainer),
-                    padding: const EdgeInsets.symmetric(vertical: 4),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
-                  ),
-                  onPressed: () {},
-                  child: const Text('Sửa TP/SL', style: TextStyle(fontSize: 10)),
                 ),
               ),
             ],

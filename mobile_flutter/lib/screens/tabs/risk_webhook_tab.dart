@@ -60,7 +60,7 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
             ),
             const SizedBox(height: 8),
             const Text(
-              'Nhập địa chỉ máy tính chạy backend FastAPI (Ví dụ khi dùng iPhone kết nối Wi-Fi nhà: http://192.168.1.15:8000):',
+              'Nhập IP máy tính chạy backend (Ví dụ khi iPhone dùng Wi-Fi chung: http://192.168.1.15:8000):',
               style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 11),
             ),
             const SizedBox(height: 12),
@@ -93,7 +93,7 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
                           backgroundColor: AppColors.surfaceContainerHigh,
-                          content: Text('Đang thử kết nối: ${textController.text}'),
+                          content: Text('Đang kết nối: ${textController.text}'),
                         ),
                       );
                     },
@@ -111,6 +111,10 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
   @override
   Widget build(BuildContext context) {
     final backend = context.watch<BackendApiService>();
+    final activePositions = backend.positions.length;
+    final dailyPnl = backend.realizedPnlToday;
+    final dailyLossHit = backend.dailyLossHit;
+    final marginRatio = backend.marginRatioPercent;
 
     return SingleChildScrollView(
       physics: const BouncingScrollPhysics(),
@@ -146,7 +150,7 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
                       decoration: BoxDecoration(color: AppColors.errorContainer.withValues(alpha: 0.4), borderRadius: BorderRadius.circular(4)),
-                      child: const Text('ARMED · 4 POSITIONS', style: TextStyle(color: AppColors.onErrorContainer, fontSize: 9, fontWeight: FontWeight.bold)),
+                      child: Text('ARMED · $activePositions VỊ THẾ', style: const TextStyle(color: AppColors.onErrorContainer, fontSize: 9, fontWeight: FontWeight.bold)),
                     ),
                   ],
                 ),
@@ -161,9 +165,9 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
                   ],
                 ),
                 const SizedBox(height: 4),
-                const Text(
-                  'Hủy toàn bộ lệnh chờ & Đóng ngay 4 vị thế theo giá thị trường (Market) khi phát hiện biến động cực đoan!',
-                  style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 11, height: 1.4),
+                Text(
+                  'Hủy toàn bộ lệnh chờ & Đóng ngay $activePositions vị thế đang mở theo giá thị trường (Market) khi phát hiện biến động cực đoan!',
+                  style: const TextStyle(color: AppColors.onSurfaceVariant, fontSize: 11, height: 1.4),
                 ),
 
                 const SizedBox(height: 14),
@@ -187,7 +191,7 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
                         Text('Xác thực 2 lớp: Soft-Arm', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 9)),
                       ],
                     ),
-                    Text('Ước tính phí: ~\$4.8 USDT', style: TextStyle(color: AppColors.bearish, fontSize: 9, fontFamily: 'monospace')),
+                    Text('Ước tính phí: ~0.5 - 2 USDT', style: TextStyle(color: AppColors.bearish, fontSize: 9, fontFamily: 'monospace')),
                   ],
                 ),
               ],
@@ -196,7 +200,7 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
 
           const SizedBox(height: 12),
 
-          // 2. Operational Guard Metrics
+          // 2. Operational Guard Metrics (Real Data)
           Row(
             children: [
               Expanded(
@@ -210,35 +214,50 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Row(
+                      Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('HẠN MỨC LỖ HÔM NAY', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 8, fontWeight: FontWeight.bold)),
-                          Icon(Icons.verified_user, color: AppColors.bullish, size: 12),
+                          const Text('HẠN MỨC LỖ HÔM NAY', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 8, fontWeight: FontWeight.bold)),
+                          Icon(
+                            dailyLossHit ? Icons.error : Icons.verified_user,
+                            color: dailyLossHit ? AppColors.bearish : AppColors.bullish,
+                            size: 12,
+                          ),
                         ],
                       ),
                       const SizedBox(height: 4),
-                      const Row(
+                      Row(
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text('-\$1,840', style: TextStyle(color: AppColors.onSurface, fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
-                          SizedBox(width: 4),
-                          Text('/ -\$6.2k', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 10, fontFamily: 'monospace')),
+                          Text(
+                            '${dailyPnl >= 0 ? '+' : ''}${dailyPnl.toStringAsFixed(2)}',
+                            style: TextStyle(
+                              color: dailyPnl >= 0 ? AppColors.bullish : AppColors.bearish,
+                              fontSize: 15,
+                              fontWeight: FontWeight.bold,
+                              fontFamily: 'monospace',
+                            ),
+                          ),
+                          const SizedBox(width: 4),
+                          const Text('USDT', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 10, fontFamily: 'monospace')),
                         ],
                       ),
                       const SizedBox(height: 6),
                       ClipRRect(
                         borderRadius: BorderRadius.circular(2),
-                        child: const LinearProgressIndicator(
-                          value: 0.296,
+                        child: LinearProgressIndicator(
+                          value: dailyLossHit ? 1.0 : 0.15,
                           backgroundColor: AppColors.surfaceContainerHighest,
-                          valueColor: AlwaysStoppedAnimation(AppColors.bullish),
+                          valueColor: AlwaysStoppedAnimation(dailyLossHit ? AppColors.bearish : AppColors.bullish),
                           minHeight: 4,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      const Text('An toàn: 29.6% ngưỡng cắt', style: TextStyle(color: AppColors.bullish, fontSize: 9)),
+                      Text(
+                        dailyLossHit ? 'Đã chạm ngưỡng cắt lỗ' : 'An toàn: Phiên ${backend.tradingMode}',
+                        style: TextStyle(color: dailyLossHit ? AppColors.bearish : AppColors.bullish, fontSize: 9),
+                      ),
                     ],
                   ),
                 ),
@@ -267,7 +286,7 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
                         crossAxisAlignment: CrossAxisAlignment.baseline,
                         textBaseline: TextBaseline.alphabetic,
                         children: [
-                          Text('${backend.marginRatioPercent.toStringAsFixed(1)}%', style: const TextStyle(color: AppColors.primaryContainer, fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
+                          Text('${marginRatio.toStringAsFixed(1)}%', style: const TextStyle(color: AppColors.primaryContainer, fontSize: 15, fontWeight: FontWeight.bold, fontFamily: 'monospace')),
                           const SizedBox(width: 4),
                           const Text('/ max 50%', style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 10, fontFamily: 'monospace')),
                         ],
@@ -276,14 +295,14 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
                       ClipRRect(
                         borderRadius: BorderRadius.circular(2),
                         child: LinearProgressIndicator(
-                          value: (backend.marginRatioPercent / 50).clamp(0.0, 1.0),
+                          value: (marginRatio / 50).clamp(0.0, 1.0),
                           backgroundColor: AppColors.surfaceContainerHighest,
                           valueColor: const AlwaysStoppedAnimation(AppColors.primaryContainer),
                           minHeight: 4,
                         ),
                       ),
                       const SizedBox(height: 4),
-                      const Text('Đệm an toàn còn +21.6%', style: TextStyle(color: AppColors.primaryContainer, fontSize: 9)),
+                      Text('Đệm an toàn còn +${(50 - marginRatio).clamp(0.0, 50.0).toStringAsFixed(1)}%', style: const TextStyle(color: AppColors.primaryContainer, fontSize: 9)),
                     ],
                   ),
                 ),
@@ -319,7 +338,7 @@ class _RiskWebhookTabState extends State<RiskWebhookTab> {
                 ),
                 const SizedBox(height: 10),
 
-                _buildRuleItem('Daily Max Loss Breaker', '-5.0% (-\$6,200 USDT / 24h)', _rule1, (v) => setState(() => _rule1 = v), Icons.trending_down, AppColors.bearish),
+                _buildRuleItem('Daily Max Loss Breaker', '-5.0% giới hạn lỗ 24h', _rule1, (v) => setState(() => _rule1 = v), Icons.trending_down, AppColors.bearish),
                 const SizedBox(height: 8),
                 _buildRuleItem('Margin Ratio > 50% Auto Hedge', 'Mở vị thế đối ứng cân bằng delta', _rule2, (v) => setState(() => _rule2 = v), Icons.balance, AppColors.primaryContainer),
                 const SizedBox(height: 8),
