@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="vi"><head><meta charset="utf-8"/><meta content="width=device-width, initial-scale=1.0" name="viewport"/><meta content="web_dashboard" name="shell-type"/><link href="https://fonts.googleapis.com" rel="preconnect"/><link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/><link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&amp;family=Manrope:wght@400;500;600;700&amp;family=Space+Grotesk:wght@500;600;700&amp;display=swap" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/><link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/><style>@layer base{html,body{margin:0;padding:0;}body{overscroll-behavior:none;}main>:first-child{margin-top:0!important;}main>:last-child{margin-bottom:0!important;}}::-webkit-scrollbar{display:none;}</style><script src="https://cdn.tailwindcss.com"></script><script id="tailwind-config">tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      "colors": {
+        "secondary-fixed": "#d7e2ff",
+        "on-tertiary-fixed": "#002111",
+        "surface": "#10131a",
+        "primary-container": "#f0b90b",
+        "surface-container-low": "#191c22",
+        "secondary-container": "#0162cb",
+        "surface-variant": "#32353c",
+        "inverse-on-surface": "#2e3037",
+        "on-tertiary": "#003920",
+        "surface-tint": "#f6be16",
+        "on-error": "#690005",
+        "on-surface": "#e1e2eb",
+        "on-primary-fixed-variant": "#5a4300",
+        "surface-container-lowest": "#0b0e14",
+        "on-secondary-fixed": "#001a40",
+        "secondary": "#acc7ff",
+        "on-background": "#e1e2eb",
+        "error": "#ffb4ab",
+        "outline": "#9b8f79",
+        "tertiary-container": "#32db8f",
+        "on-secondary-container": "#dae4ff",
+        "on-surface-variant": "#d3c5ac",
+        "error-container": "#93000a",
+        "primary-fixed": "#ffdf99",
+        "tertiary-fixed-dim": "#3be194",
+        "primary": "#ffd87f",
+        "on-tertiary-fixed-variant": "#005231",
+        "on-primary-container": "#644b00",
+        "on-secondary": "#002f67",
+        "on-tertiary-container": "#005b37",
+        "on-primary": "#3f2e00",
+        "secondary-fixed-dim": "#acc7ff",
+        "inverse-surface": "#e1e2eb",
+        "on-primary-fixed": "#251a00",
+        "primary-fixed-dim": "#f6be16",
+        "surface-container-high": "#272a31",
+        "surface-container": "#1d2026",
+        "surface-container-highest": "#32353c",
+        "surface-dim": "#10131a",
+        "outline-variant": "#4f4633",
+        "background": "#10131a",
+        "on-secondary-fixed-variant": "#004491",
+        "tertiary": "#59f8a9",
+        "on-error-container": "#ffdad6",
+        "surface-bright": "#363940",
+        "tertiary-fixed": "#60feae",
+        "inverse-primary": "#775a00"
+      },
+      "borderRadius": {
+        "DEFAULT": "0.125rem",
+        "lg": "0.25rem",
+        "xl": "0.5rem",
+        "full": "0.75rem"
+      },
+      "spacing": {
+        "margin": "1rem",
+        "margin-desktop": "1.5rem",
+        "space-sm": "0.5rem",
+        "gutter-desktop": "1rem",
+        "space-xs": "0.25rem",
+        "space-lg": "1rem",
+        "space-xl": "1.5rem",
+        "space-md": "0.75rem",
+        "gutter": "0.75rem"
+      },
+      "fontFamily": {
+        "headline-xl-mobile": ["Space Grotesk"],
+        "metric-table": ["JetBrains Mono"],
+        "headline-lg": ["Space Grotesk"],
+        "headline-sm": ["Space Grotesk"],
+        "label-code": ["JetBrains Mono"],
+        "headline-xl": ["Space Grotesk"],
+        "metric-value": ["JetBrains Mono"],
+        "body-lg": ["Manrope"],
+        "label-caps": ["Manrope"],
+        "metric-display-mobile": ["JetBrains Mono"],
+        "metric-display": ["JetBrains Mono"],
+        "body-md": ["Manrope"],
+        "body-sm": ["Manrope"]
+      },
+      "fontSize": {
+        "headline-xl-mobile": ["28px", {"lineHeight": "36px", "letterSpacing": "-0.01em", "fontWeight": "700"}],
+        "metric-table": ["12px", {"lineHeight": "16px", "fontWeight": "500"}],
+        "headline-lg": ["24px", {"lineHeight": "32px", "letterSpacing": "-0.01em", "fontWeight": "600"}],
+        "headline-sm": ["18px", {"lineHeight": "24px", "fontWeight": "600"}],
+        "label-code": ["11px", {"lineHeight": "14px", "letterSpacing": "0.04em", "fontWeight": "500"}],
+        "headline-xl": ["36px", {"lineHeight": "44px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+        "metric-value": ["14px", {"lineHeight": "18px", "fontWeight": "600"}],
+        "body-lg": ["16px", {"lineHeight": "24px", "fontWeight": "500"}],
+        "label-caps": ["10px", {"lineHeight": "12px", "letterSpacing": "0.08em", "fontWeight": "700"}],
+        "metric-display-mobile": ["22px", {"lineHeight": "28px", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+        "metric-display": ["28px", {"lineHeight": "32px", "letterSpacing": "-0.03em", "fontWeight": "700"}],
+        "body-md": ["14px", {"lineHeight": "20px", "fontWeight": "400"}],
+        "body-sm": ["12px", {"lineHeight": "16px", "fontWeight": "400"}]
+      }
+    }
+  }
+}</script></head><body class="bg-surface-container-lowest font-body-md text-body-md text-on-surface antialiased selection:bg-primary-container selection:text-on-primary-container min-h-screen"><aside class="fixed left-0 top-0 h-full w-64 bg-surface-container-lowest border-r border-outline-variant/30 z-50 flex flex-col justify-between select-none"><div class="flex flex-col"><div class="h-16 px-space-lg flex items-center gap-space-sm border-b border-outline-variant/30"><img alt="Binance Futures Bot Terminal Logo" class="h-8 w-auto object-contain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrr4MHaOJV0Xp_IzYixoFQWQ8fMMFSzSpZR9y6tPv6QCZVgZqiC8SZIZGSY3h-qa3mHgn5c6FdKXkyGHKta3a1ZdnwTp8IVbg_vOTdVrYB7joxVjoSDje_hCDbS9HpdkPXU9EdodL6MJW50kz9O09DnjtaeIJadjCZ9v-ZKWaLpVugdbkdzqVjMEb5ddnaQUXsIkEw3NHUaVjFpRsXzw4j-o-ySffZL63S2bzxU-MhxijXfSZfV1iqNQ"/><div class="flex flex-col"><div class="flex items-center gap-space-xs"><span class="font-headline-sm text-headline-sm tracking-tight text-on-surface">BINANCE BOT</span><span class="font-headline-sm text-headline-sm text-primary">PRO</span></div><span class="font-label-caps text-label-caps text-primary px-1.5 py-0.5 rounded bg-surface-container-high/80 border border-primary/30 w-fit">FUTURES USDT-M</span></div></div><div class="px-space-md py-space-sm"><div class="px-space-sm py-space-xs text-on-surface-variant/70 font-label-caps text-label-caps uppercase tracking-wider">Execution Terminal</div></div><nav class="flex flex-col gap-space-xs px-space-sm" data-active-classes="bg-surface-container-high text-primary border-l-2 border-primary font-bold"><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="dashboard" href="#"><span class="font-body-md text-body-md font-medium truncate">Dashboard Tổng Quan</span></a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="chien-luoc" href="#"><span class="font-body-md text-body-md font-medium truncate">Chiến Lược Bots</span></a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="vi-the-mo-lenh" href="#"><span class="font-body-md text-body-md font-medium truncate">Vị Thế &amp; Sổ Lệnh</span></a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="phan-tich-pnl-lich-su" href="#"><span class="font-body-md text-body-md font-medium truncate">Phân Tích PnL &amp; Lịch Sử Giao Dịch</span></a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="quan-ly-von-risk" href="#"><span class="font-body-md text-body-md font-medium truncate">Quản Trị Rủi Ro Risk</span></a><a class="flex items-center px-space-md py-space-sm rounded-lg text-on-surface-variant hover:bg-surface-container hover:text-on-surface transition-all" data-path="cai-dat-api-binance" href="#"><span class="font-body-md text-body-md font-medium truncate">API Binance &amp; Webhook</span></a></nav></div><div class="p-space-md border-t border-outline-variant/30 bg-surface-container-low/40 flex flex-col gap-space-sm"><div class="flex items-center justify-between text-on-surface-variant font-label-code text-label-code"><span>RATE LIMIT FUTURES</span><span class="text-tertiary">240 / 1200</span></div><div class="w-full bg-surface-container-highest rounded-full h-1.5 overflow-hidden"><div class="bg-tertiary-container h-full rounded-full w-[20%]"></div></div><div class="flex items-center justify-between text-on-surface-variant font-label-code text-label-code"><span>SERVER LATENCY</span><span class="text-tertiary flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-tertiary animate-pulse"></span>12ms</span></div></div></aside><div class="pl-64"><header class="fixed top-0 left-64 right-0 h-16 bg-surface-container-lowest/90 backdrop-blur-xl border-b border-outline-variant/30 z-40 px-space-lg flex items-center justify-between"><div class="flex items-center gap-space-lg"><div class="flex items-center gap-space-sm bg-surface-container-low px-space-md py-1.5 rounded border border-outline-variant/30"><span class="relative flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-tertiary opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-tertiary"></span></span><span class="font-label-code text-label-code font-semibold text-on-surface tracking-wider uppercase">WS CONNECTED</span><span class="text-outline font-label-code text-label-code">|</span><span class="font-metric-table text-metric-table text-tertiary">12ms</span></div><div class="flex items-center bg-surface-container-low border border-outline-variant/30 rounded px-space-md py-1.5 gap-space-sm hover:border-outline/50 transition-colors cursor-pointer"><span class="material-symbols-outlined text-[18px] text-primary">currency_bitcoin</span><div class="flex items-center gap-1.5"><span class="font-label-code text-label-code font-bold text-on-surface">BTCUSDT</span><span class="font-label-caps text-label-caps text-on-surface-variant bg-surface-container-high px-1 py-0.5 rounded">PERP</span></div><span class="material-symbols-outlined text-[16px] text-on-surface-variant">expand_more</span></div><div class="hidden xl:flex items-center gap-space-md pl-space-md border-l border-outline-variant/30"><div class="flex flex-col"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">Tổng Vốn Ký Quỹ</span><span class="font-metric-value text-metric-value text-on-surface font-semibold">$124,580.45 <span class="text-on-surface-variant font-label-code text-label-code font-normal">USDT</span></span></div><div class="flex flex-col"><span class="font-label-caps text-label-caps text-on-surface-variant uppercase">PnL Hôm Nay</span><span class="font-metric-value text-metric-value text-tertiary font-semibold">+$3,420.12 <span class="font-metric-table text-metric-table text-tertiary">(+2.82%)</span></span></div></div></div><div class="flex items-center gap-space-md"><div class="flex items-center gap-space-sm bg-surface-container-low border border-outline-variant/30 px-space-md py-1 rounded"><div class="flex flex-col"><span class="font-label-caps text-label-caps text-tertiary font-bold tracking-wide flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-tertiary"></span>BOT ĐANG CHẠY</span><span class="font-label-code text-label-code text-on-surface-variant">4 Cặp Khả Dụng</span></div><button class="ml-space-sm px-space-md py-1 bg-error-container hover:bg-error text-on-error hover:text-on-error font-body-sm text-body-sm font-bold uppercase rounded border border-error/50 flex items-center gap-1 shadow-sm transition-all active:scale-95" type="button"><span class="material-symbols-outlined text-[16px]">gpp_maybe</span><span>DỪNG KHẨN CẤP</span></button></div><div class="relative flex items-center"><button aria-label="Thông báo cảnh báo bot" class="relative p-2 rounded-lg bg-surface-container-low hover:bg-surface-container text-on-surface-variant hover:text-on-surface transition-colors border border-outline-variant/30" type="button"><span class="material-symbols-outlined text-[20px]">notifications</span><span class="absolute top-1 right-1 flex h-2 w-2"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-container opacity-75"></span><span class="relative inline-flex rounded-full h-2 w-2 bg-primary-container"></span></span></button></div><div class="flex items-center gap-space-sm pl-space-sm border-l border-outline-variant/30"><div class="flex items-center gap-space-sm"><div class="relative"><img alt="Profile" class="w-8 h-8 rounded-full object-cover border border-outline-variant/40" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAS0TjW-Q5MYwClbTENZOgY-56lQIrjcmNAwmOWjYhkTWUAUiLtlFuMuobwoqGlv__Ezx-VnMM-mKM-odlflN4a3UCmo74DGQJ6ZaphUuoNuCoTDabTBbGckR0SlkmEgOI7sjfNr8Ata3ip8GUx59xJ0ujl-Q88Y4TsQ6KMJ7Uj8ljOyamL0jBUMYzF2ffabnYl8KVHq5E6SM_FMBx-0Cb78O1MkTDO40f8SEplTK79pN9Off9Rxhhkyg"/><span class="absolute -bottom-1 -right-1 font-label-caps text-[9px] bg-primary text-on-primary font-bold px-1 rounded-sm shadow-sm">VIP 4</span></div><div class="hidden md:flex flex-col text-left"><span class="font-body-sm text-body-sm font-semibold text-on-surface leading-tight">Master Algo Desk</span><span class="font-label-code text-label-code text-primary leading-none">#0892-FUTURES</span></div></div></div></div></header><main class="relative pt-16 bg-surface-container-lowest w-full px-space-lg pb-space-xl"><div class="flex flex-col w-full gap-space-lg select-none">
+<!-- Sub-header & Multi-Dimensional Filters -->
+<div class="flex flex-col xl:flex-row xl:items-center justify-between gap-space-md bg-surface-container-low p-space-md rounded-xl shadow-md">
+<div class="flex flex-col gap-1">
+<div class="flex items-center gap-2 text-on-surface-variant font-label-code text-label-code">
+<span>BÁO CÁO ĐỊNH LƯỢNG</span>
+<span class="text-outline">/</span>
+<span class="text-primary font-semibold">PHÂN TÍCH PNL &amp; LỊCH SỬ KHỚP LỆNH</span>
+<span class="text-outline">/</span>
+<span class="bg-surface-container-high px-1.5 py-0.5 rounded text-tertiary">FUTURES USDT-M</span>
+</div>
+<div class="flex items-center gap-space-sm">
+<h1 class="font-headline-lg text-headline-lg text-on-surface tracking-tight font-bold">Thống Kê Hiệu Năng Thuật Toán</h1>
+<span class="px-2 py-0.5 rounded-full bg-tertiary-container/20 text-tertiary font-label-caps text-label-caps tracking-wider font-semibold">TELEMETRY LIVE</span>
+</div>
+</div>
+<!-- Controls & Filters Toolbar -->
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Time Selector Tabs -->
+<div class="flex items-center bg-surface-container-lowest p-1 rounded-lg">
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-code text-label-code transition-colors" type="button">Hôm Nay</button>
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-code text-label-code transition-colors" type="button">7N</button>
+<button class="px-space-sm py-1 rounded bg-primary text-on-primary font-bold font-label-code text-label-code shadow-sm" type="button">30 Ngày</button>
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-code text-label-code transition-colors" type="button">90N</button>
+<button class="px-space-sm py-1 rounded text-on-surface-variant hover:text-on-surface font-label-code text-label-code transition-colors" type="button">Tất Cả</button>
+</div>
+<!-- Date Range Custom Picker Mock -->
+<div class="flex items-center gap-1.5 px-space-md py-1.5 bg-surface-container-lowest rounded-lg text-on-surface font-label-code text-label-code cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-[16px] text-primary">calendar_today</span>
+<span>01/11/2024 - 15/12/2024</span>
+</div>
+<!-- Bot Dropdown Filter -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-lowest text-on-surface font-label-code text-label-code py-1.5 pl-3 pr-8 rounded-lg cursor-pointer focus:outline-none focus:bg-surface-container transition-colors">
+<option value="all">Mọi Bot Chiến Lược (4 Active)</option>
+<option value="bot1">Bot #1: BTC Ultra Grid 24/7</option>
+<option value="bot2">Bot #2: ETH Multi-DCA Reversal</option>
+<option value="bot3">Bot #3: SOL Momentum Breakout</option>
+<option value="bot4">Bot #4: Meme Scalper High-Freq</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[16px] text-on-surface-variant">unfold_more</span>
+</div>
+<!-- Token Pair Selector -->
+<div class="relative">
+<select class="appearance-none bg-surface-container-lowest text-on-surface font-label-code text-label-code py-1.5 pl-3 pr-8 rounded-lg cursor-pointer focus:outline-none focus:bg-surface-container transition-colors">
+<option value="all">Tất Cả Cặp Giao Dịch</option>
+<option value="btcusdt">BTCUSDT (Perpetual)</option>
+<option value="ethusdt">ETHUSDT (Perpetual)</option>
+<option value="solusdt">SOLUSDT (Perpetual)</option>
+<option value="dogeusdt">DOGEUSDT (Perpetual)</option>
+</select>
+<span class="material-symbols-outlined pointer-events-none absolute right-2 top-1/2 -translate-y-1/2 text-[16px] text-on-surface-variant">expand_more</span>
+</div>
+<!-- Action Buttons -->
+<div class="flex items-center gap-1.5">
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-code text-label-code transition-all" title="Xuất CSV/Excel" type="button">
+<span class="material-symbols-outlined text-[16px] text-primary">table_view</span>
+<span class="hidden sm:inline">CSV / Excel</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-highest hover:bg-surface-bright text-on-surface font-label-code text-label-code transition-all" title="Báo Cáo Thuế PDF" type="button">
+<span class="material-symbols-outlined text-[16px] text-secondary">picture_as_pdf</span>
+<span class="hidden sm:inline">Sao Kê PDF</span>
+</button>
+<button class="flex items-center gap-1 px-3 py-1.5 rounded-lg bg-surface-container-high text-tertiary hover:bg-surface-container-highest font-label-code text-label-code transition-all" title="Tự động đồng bộ mỗi 10 giây" type="button">
+<span class="material-symbols-outlined text-[16px] animate-spin">sync</span>
+<span class="font-bold">10s</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Financial KPI Highlights - 5 Cards Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-space-md">
+<!-- Card 1: Net Realized PnL -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-md relative overflow-hidden group">
+<div class="absolute -right-6 -bottom-6 w-24 h-24 bg-tertiary/10 rounded-full blur-xl pointer-events-none"></div>
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant font-bold tracking-wider uppercase">Tổng PnL Thực Tế (30N)</span>
+<span class="material-symbols-outlined text-[18px] text-tertiary">monitoring</span>
+</div>
+<div class="flex flex-col my-1">
+<div class="flex items-baseline gap-1.5">
+<span class="font-metric-display text-metric-display text-tertiary font-bold tracking-tight">+$32,450.20</span>
+<span class="font-label-code text-label-code text-on-surface-variant">USDT</span>
+</div>
+<div class="flex items-center gap-2 mt-1">
+<span class="px-1.5 py-0.5 rounded bg-tertiary/20 text-tertiary font-label-code text-label-code font-bold">+25.26% ROI</span>
+<span class="font-label-code text-label-code text-on-surface-variant flex items-center gap-0.5">
+<span class="material-symbols-outlined text-[14px] text-tertiary">arrow_upward</span>+$3,420 hôm nay
+          </span>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-tertiary h-full w-[82%] rounded-full"></div>
+</div>
+</div>
+<!-- Card 2: Win Rate & Trades Count -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-md relative overflow-hidden group">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant font-bold tracking-wider uppercase">Tỷ Lệ Thắng (Win Rate)</span>
+<span class="material-symbols-outlined text-[18px] text-primary">verified</span>
+</div>
+<div class="flex flex-col my-1">
+<div class="flex items-baseline gap-1.5">
+<span class="font-metric-display text-metric-display text-on-surface font-bold tracking-tight">77.8%</span>
+<span class="font-label-code text-label-code text-tertiary font-semibold">454 Thắng / 130 Thua</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-code text-label-code mt-1">
+<span>TB Thắng: <strong class="text-tertiary font-semibold">+$118.50</strong></span>
+<span>TB Thua: <strong class="text-error font-semibold">-$84.20</strong></span>
+</div>
+</div>
+<div class="flex w-full h-1 rounded-full overflow-hidden mt-space-xs bg-surface-container-highest">
+<div class="bg-tertiary h-full w-[77.8%]"></div>
+<div class="bg-error h-full w-[22.2%]"></div>
+</div>
+</div>
+<!-- Card 3: Profit Factor & Sharpe Ratio -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-md relative overflow-hidden group">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant font-bold tracking-wider uppercase">Profit Factor &amp; Sharpe</span>
+<span class="material-symbols-outlined text-[18px] text-secondary">speed</span>
+</div>
+<div class="flex flex-col my-1">
+<div class="flex items-baseline gap-2">
+<span class="font-metric-display text-metric-display text-primary font-bold">2.82</span>
+<span class="font-label-caps text-label-caps px-1.5 py-0.5 rounded bg-primary/20 text-primary uppercase font-bold">High Alpha</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-code text-label-code mt-1">
+<span>Sharpe: <strong class="text-on-surface font-bold">2.34</strong></span>
+<span>Sortino: <strong class="text-tertiary font-bold">3.12</strong></span>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-primary h-full w-[70%] rounded-full"></div>
+</div>
+</div>
+<!-- Card 4: Total Fees & Funding Net -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-md relative overflow-hidden group">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant font-bold tracking-wider uppercase">Tổng Chi Phí Sàn Thuần</span>
+<span class="material-symbols-outlined text-[18px] text-outline">receipt_long</span>
+</div>
+<div class="flex flex-col my-1">
+<div class="flex items-baseline gap-1.5">
+<span class="font-metric-display text-metric-display text-on-surface font-bold tracking-tight">$1,842.60</span>
+<span class="font-label-code text-label-code text-on-surface-variant">USDT</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-code text-label-code mt-1">
+<span>Phí Taker/Maker: <strong class="text-on-surface">$1,210.40</strong></span>
+<span class="text-tertiary">Funding: +$632.20</span>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-outline h-full w-[45%] rounded-full"></div>
+</div>
+</div>
+<!-- Card 5: Max Drawdown & Recovery -->
+<div class="bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-md relative overflow-hidden group">
+<div class="flex items-center justify-between mb-space-xs">
+<span class="font-label-caps text-label-caps text-on-surface-variant font-bold tracking-wider uppercase">Max Drawdown Lịch Sử</span>
+<span class="material-symbols-outlined text-[18px] text-error">trending_down</span>
+</div>
+<div class="flex flex-col my-1">
+<div class="flex items-baseline gap-1.5">
+<span class="font-metric-display text-metric-display text-error font-bold tracking-tight">-4.62%</span>
+<span class="font-label-code text-label-code text-error-container font-semibold">(-$5,930 USDT)</span>
+</div>
+<div class="flex items-center justify-between text-on-surface-variant font-label-code text-label-code mt-1">
+<span>Hồi phục: <strong class="text-on-surface">4.2 Ngày</strong></span>
+<span>ATH: <strong class="text-primary">$128.4K</strong></span>
+</div>
+</div>
+<div class="w-full bg-surface-container-highest h-1 rounded-full overflow-hidden mt-space-xs">
+<div class="bg-error h-full w-[24%] rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Dual Analytics Charts Section -->
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-space-lg">
+<!-- Left Column: Cumulative Equity & Profit Decomposition Chart (7 cols) -->
+<div class="lg:col-span-7 bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-md relative overflow-hidden">
+<div class="flex flex-wrap items-center justify-between gap-space-sm mb-space-sm pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">show_chart</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">Đường Tích Lũy Vốn (Equity Curve) &amp; PnL Phân Rã</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tăng trưởng số dư danh nghĩa từ $96,000 USDT lên $128,450.80 USDT</p>
+</div>
+</div>
+<div class="flex items-center gap-3">
+<div class="flex items-center gap-1.5 font-label-code text-label-code text-on-surface-variant">
+<span class="w-3 h-1 bg-tertiary rounded-full"></span>
+<span>Tổng Tài Sản Vốn</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-code text-label-code text-on-surface-variant">
+<span class="w-2.5 h-2.5 bg-tertiary/60 rounded-xs"></span>
+<span>PnL Ngày Lãi</span>
+</div>
+<div class="flex items-center gap-1.5 font-label-code text-label-code text-on-surface-variant">
+<span class="w-2.5 h-2.5 bg-error/80 rounded-xs"></span>
+<span>PnL Ngày Lỗ</span>
+</div>
+</div>
+</div>
+<!-- Integrated Equity Curve SVG Visualization -->
+<div class="relative w-full h-72 bg-surface-container-lowest rounded-lg p-space-sm flex flex-col justify-between">
+<!-- Overlay Grid Lines -->
+<div class="absolute inset-0 p-space-sm flex flex-col justify-between pointer-events-none opacity-20">
+<div class="w-full h-px bg-outline-variant"></div>
+<div class="w-full h-px bg-outline-variant"></div>
+<div class="w-full h-px bg-outline-variant"></div>
+<div class="w-full h-px bg-outline-variant"></div>
+<div class="w-full h-px bg-outline-variant"></div>
+</div>
+<!-- SVG Curve + Volume Histogram -->
+<div class="relative w-full h-52">
+<svg class="w-full h-full overflow-visible" preserveaspectratio="none" viewbox="0 0 700 200">
+<defs>
+<lineargradient id="equityFill" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#59f8a9" stop-opacity="0.32"></stop>
+<stop offset="85%" stop-color="#59f8a9" stop-opacity="0.0"></stop>
+</lineargradient>
+</defs>
+<!-- Area Shading -->
+<path d="M 0,175 Q 70,165 140,150 T 280,120 T 420,80 T 560,45 T 700,20 L 700,200 L 0,200 Z" fill="url(#equityFill)"></path>
+<!-- Equity Line -->
+<path d="M 0,175 Q 70,165 140,150 T 280,120 T 420,80 T 560,45 T 700,20" fill="none" stroke="#59f8a9" stroke-linecap="round" stroke-width="3"></path>
+<!-- High Watermark Pin -->
+<circle cx="700" cy="20" fill="#ffd87f" r="5"></circle>
+<circle cx="420" cy="80" fill="#59f8a9" r="4"></circle>
+</svg>
+<!-- Floating Annotations -->
+<div class="absolute right-4 top-2 bg-surface-container-high/90 backdrop-blur px-2 py-1 rounded text-right shadow">
+<span class="font-label-caps text-[9px] text-primary uppercase font-bold block">ATH Kỷ Lục Mới</span>
+<span class="font-metric-table text-metric-table text-on-surface font-bold">$128,450.80</span>
+</div>
+<div class="absolute left-[58%] top-[34%] bg-surface-container-high/90 backdrop-blur px-2 py-0.5 rounded shadow hidden sm:block">
+<span class="font-label-code text-[10px] text-tertiary">+Breakout Vol: $11.4k</span>
+</div>
+</div>
+<!-- Sub Histogram: Daily Net Realized PnL Bars -->
+<div class="w-full h-12 flex items-end justify-between gap-1 pt-1">
+<!-- 30 mock daily PnL distribution bars -->
+<div class="w-full bg-tertiary/70 hover:bg-tertiary h-[35%] rounded-xs transition-all" title="01/11: +$420"></div>
+<div class="w-full bg-tertiary/80 hover:bg-tertiary h-[50%] rounded-xs transition-all" title="02/11: +$680"></div>
+<div class="w-full bg-error/70 hover:bg-error h-[20%] rounded-xs transition-all" title="03/11: -$180"></div>
+<div class="w-full bg-tertiary/60 hover:bg-tertiary h-[40%] rounded-xs transition-all" title="04/11: +$510"></div>
+<div class="w-full bg-tertiary/90 hover:bg-tertiary h-[75%] rounded-xs transition-all" title="05/11: +$1,120"></div>
+<div class="w-full bg-tertiary/75 hover:bg-tertiary h-[60%] rounded-xs transition-all" title="06/11: +$840"></div>
+<div class="w-full bg-tertiary/65 hover:bg-tertiary h-[45%] rounded-xs transition-all" title="07/11: +$620"></div>
+<div class="w-full bg-error/80 hover:bg-error h-[40%] rounded-xs transition-all" title="08/11: -$420"></div>
+<div class="w-full bg-tertiary/70 hover:bg-tertiary h-[55%] rounded-xs transition-all" title="09/11: +$790"></div>
+<div class="w-full bg-tertiary/80 hover:bg-tertiary h-[65%] rounded-xs transition-all" title="10/11: +$910"></div>
+<div class="w-full bg-tertiary/95 hover:bg-tertiary h-[85%] rounded-xs transition-all" title="11/11: +$1,450"></div>
+<div class="w-full bg-error/60 hover:bg-error h-[25%] rounded-xs transition-all" title="12/11: -$230"></div>
+<div class="w-full bg-tertiary/70 hover:bg-tertiary h-[50%] rounded-xs transition-all" title="13/11: +$710"></div>
+<div class="w-full bg-tertiary/60 hover:bg-tertiary h-[40%] rounded-xs transition-all" title="14/11: +$540"></div>
+<div class="w-full bg-tertiary/85 hover:bg-tertiary h-[70%] rounded-xs transition-all" title="15/11: +$980"></div>
+<div class="w-full bg-tertiary/90 hover:bg-tertiary h-[80%] rounded-xs transition-all" title="16/11: +$1,210"></div>
+<div class="w-full bg-error/70 hover:bg-error h-[30%] rounded-xs transition-all" title="17/11: -$310"></div>
+<div class="w-full bg-tertiary/65 hover:bg-tertiary h-[45%] rounded-xs transition-all" title="18/11: +$620"></div>
+<div class="w-full bg-tertiary/75 hover:bg-tertiary h-[60%] rounded-xs transition-all" title="19/11: +$830"></div>
+<div class="w-full bg-tertiary/90 hover:bg-tertiary h-[80%] rounded-xs transition-all" title="20/11: +$1,150"></div>
+<div class="w-full bg-error/90 hover:bg-error h-[55%] rounded-xs transition-all" title="21/11: -$750"></div>
+<div class="w-full bg-tertiary/70 hover:bg-tertiary h-[50%] rounded-xs transition-all" title="22/11: +$690"></div>
+<div class="w-full bg-tertiary/80 hover:bg-tertiary h-[65%] rounded-xs transition-all" title="23/11: +$890"></div>
+<div class="w-full bg-tertiary/95 hover:bg-tertiary h-[90%] rounded-xs transition-all" title="24/11: +$1,620"></div>
+<div class="w-full bg-tertiary/85 hover:bg-tertiary h-[75%] rounded-xs transition-all" title="25/11: +$1,050"></div>
+<div class="w-full bg-error/60 hover:bg-error h-[20%] rounded-xs transition-all" title="26/11: -$190"></div>
+<div class="w-full bg-tertiary/70 hover:bg-tertiary h-[55%] rounded-xs transition-all" title="27/11: +$780"></div>
+<div class="w-full bg-tertiary/80 hover:bg-tertiary h-[65%] rounded-xs transition-all" title="28/11: +$920"></div>
+<div class="w-full bg-tertiary/90 hover:bg-tertiary h-[85%] rounded-xs transition-all" title="29/11: +$1,340"></div>
+<div class="w-full bg-tertiary hover:bg-tertiary-fixed h-[100%] rounded-xs transition-all" title="30/11: +$3,420 (Hôm nay)"></div>
+</div>
+<div class="flex items-center justify-between font-label-code text-label-code text-on-surface-variant pt-1">
+<span>01/11/2024 ($96,000)</span>
+<span>10/11</span>
+<span>20/11</span>
+<span>Hôm Nay ($128,450.80)</span>
+</div>
+</div>
+</div>
+<!-- Right Column: Monthly Trading PnL Heatmap Calendar (5 cols) -->
+<div class="lg:col-span-5 bg-surface-container-low p-space-md rounded-xl flex flex-col justify-between shadow-md">
+<div class="flex items-center justify-between mb-space-sm">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-tertiary text-[20px]">calendar_month</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold tracking-tight">Ma Trận Lãi/Lỗ Theo Ngày (Heatmap)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Tháng 11 / Tháng 12 • 28 Ngày Xanh / 4 Ngày Đỏ</p>
+</div>
+</div>
+<div class="flex items-center gap-1 font-label-code text-label-code">
+<span class="text-on-surface-variant">Tuần Này:</span>
+<span class="text-tertiary font-bold">+$6,840.50</span>
+</div>
+</div>
+<!-- Heatmap Days of Week Header -->
+<div class="grid grid-cols-7 gap-1.5 text-center font-label-code text-label-code text-on-surface-variant uppercase mb-1">
+<span>T2</span>
+<span>T3</span>
+<span>T4</span>
+<span>T5</span>
+<span>T6</span>
+<span>T7</span>
+<span class="text-primary font-bold">CN</span>
+</div>
+<!-- Heatmap Matrix Grid (Selected 4-week active snapshot) -->
+<div class="grid grid-cols-7 gap-1.5 flex-1">
+<!-- Week 1 -->
+<div class="p-1.5 rounded bg-tertiary-container/30 hover:bg-tertiary/40 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">11</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$1,420</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/20 hover:bg-tertiary/30 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">12</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$850</span>
+</div>
+<div class="p-1.5 rounded bg-error-container/40 hover:bg-error-container flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">13</span>
+<span class="font-label-code text-[11px] text-error font-bold">-$320</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/40 hover:bg-tertiary/50 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">14</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$2,100</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/20 hover:bg-tertiary/30 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">15</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$940</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/15 hover:bg-tertiary/25 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">16</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$610</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/25 hover:bg-tertiary/35 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-primary font-bold">17</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$1,240</span>
+</div>
+<!-- Week 2 -->
+<div class="p-1.5 rounded bg-tertiary-container/20 hover:bg-tertiary/30 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">18</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$780</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/30 hover:bg-tertiary/40 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">19</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$1,560</span>
+</div>
+<div class="p-1.5 rounded bg-error-container/50 hover:bg-error-container flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">20</span>
+<span class="font-label-code text-[11px] text-error font-bold">-$750</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/25 hover:bg-tertiary/35 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">21</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$980</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/35 hover:bg-tertiary/45 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">22</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$1,890</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/15 hover:bg-tertiary/25 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">23</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$480</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/45 hover:bg-tertiary/55 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-primary font-bold">24</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$2,450</span>
+</div>
+<!-- Week 3 -->
+<div class="p-1.5 rounded bg-tertiary-container/20 hover:bg-tertiary/30 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">25</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$910</span>
+</div>
+<div class="p-1.5 rounded bg-error-container/30 hover:bg-error-container flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">26</span>
+<span class="font-label-code text-[11px] text-error font-bold">-$190</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/20 hover:bg-tertiary/30 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">27</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$780</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/25 hover:bg-tertiary/35 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">28</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$1,120</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/30 hover:bg-tertiary/40 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">29</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$1,340</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/15 hover:bg-tertiary/25 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer">
+<span class="font-label-code text-[10px] text-on-surface-variant">30</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$520</span>
+</div>
+<div class="p-1.5 rounded bg-tertiary-container/50 hover:bg-tertiary/60 flex flex-col justify-between min-h-[52px] transition-all cursor-pointer ring-1 ring-primary/40">
+<span class="font-label-code text-[10px] text-primary font-bold">01/12</span>
+<span class="font-label-code text-[11px] text-tertiary font-bold">+$3,420</span>
+</div>
+</div>
+<!-- Heatmap Color Scale Indicator -->
+<div class="flex items-center justify-between pt-space-xs font-label-code text-[10px] text-on-surface-variant">
+<span class="flex items-center gap-1">
+<span class="w-2.5 h-2.5 rounded-xs bg-error-container/60"></span>
+          Thua Lỗ (-$750)
+        </span>
+<div class="flex items-center gap-1">
+<span>Tỷ lệ lãi:</span>
+<span class="w-2.5 h-2.5 rounded-xs bg-tertiary-container/15"></span>
+<span class="w-2.5 h-2.5 rounded-xs bg-tertiary-container/30"></span>
+<span class="w-2.5 h-2.5 rounded-xs bg-tertiary-container/50"></span>
+<span class="w-2.5 h-2.5 rounded-xs bg-tertiary"></span>
+<span class="text-tertiary font-bold">&gt; +$2,500</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Performance Breakdown by Bot Strategy & Asset Pair -->
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-space-lg">
+<!-- Sub-table 1: Breakdown by Bot (8 cols) -->
+<div class="xl:col-span-8 bg-surface-container-low p-space-md rounded-xl shadow-md flex flex-col">
+<div class="flex items-center justify-between mb-space-sm pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[20px]">smart_toy</span>
+<div>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Hiệu Suất Theo Bot Giao Dịch</h3>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Chi tiết phân bổ lợi nhuận, drawdown và trạng thái luồng bot</p>
+</div>
+</div>
+<span class="font-label-code text-label-code text-on-surface-variant">4 Bots Đang Kích Hoạt</span>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left font-metric-table text-metric-table">
+<thead>
+<tr class="text-on-surface-variant bg-surface-container-lowest font-label-code text-label-code uppercase">
+<th class="py-2.5 px-3 rounded-l">Mã &amp; Chiến Lược Bot</th>
+<th class="py-2.5 px-3 text-right">Lãi Thuần (PnL)</th>
+<th class="py-2.5 px-3 text-right">Tổng Lệnh</th>
+<th class="py-2.5 px-3 text-right">Tỷ Lệ Thắng</th>
+<th class="py-2.5 px-3 text-right">Max Drawdown</th>
+<th class="py-2.5 px-3 text-center rounded-r">Trạng Thái</th>
+</tr>
+</thead>
+<tbody class="divide-y-0">
+<!-- Row 1: Bot 1 -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<div>
+<span class="font-bold text-on-surface">Bot #1: BTC Ultra Grid 24/7</span>
+<span class="block text-[11px] text-on-surface-variant font-label-code">Grid Neutral • Range $88,000 - $104,000</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-3 text-right text-tertiary font-bold">+$14,820.00</td>
+<td class="py-3 px-3 text-right text-on-surface">284</td>
+<td class="py-3 px-3 text-right">
+<span class="text-tertiary font-bold">82.4%</span>
+<span class="block text-[10px] text-on-surface-variant">234W / 50L</span>
+</td>
+<td class="py-3 px-3 text-right text-error font-semibold">-2.1%</td>
+<td class="py-3 px-3 text-center">
+<span class="px-2 py-0.5 rounded-full bg-tertiary/20 text-tertiary font-label-caps text-label-caps font-bold">ĐANG CHẠY</span>
+</td>
+</tr>
+<!-- Row 2: Bot 2 -->
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container-lowest/20">
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<div>
+<span class="font-bold text-on-surface">Bot #2: ETH Multi-DCA Reversal</span>
+<span class="block text-[11px] text-on-surface-variant font-label-code">Dynamic Fib Step • Max 4 Safety Orders</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-3 text-right text-tertiary font-bold">+$9,450.20</td>
+<td class="py-3 px-3 text-right text-on-surface">142</td>
+<td class="py-3 px-3 text-right">
+<span class="text-tertiary font-bold">74.6%</span>
+<span class="block text-[10px] text-on-surface-variant">106W / 36L</span>
+</td>
+<td class="py-3 px-3 text-right text-error font-semibold">-3.8%</td>
+<td class="py-3 px-3 text-center">
+<span class="px-2 py-0.5 rounded-full bg-tertiary/20 text-tertiary font-label-caps text-label-caps font-bold">ĐANG CHẠY</span>
+</td>
+</tr>
+<!-- Row 3: Bot 3 -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary"></span>
+<div>
+<span class="font-bold text-on-surface">Bot #3: SOL Momentum Breakout</span>
+<span class="block text-[11px] text-on-surface-variant font-label-code">EMA Cross 5/20 + Supertrend Filter</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-3 text-right text-tertiary font-bold">+$5,810.00</td>
+<td class="py-3 px-3 text-right text-on-surface">98</td>
+<td class="py-3 px-3 text-right">
+<span class="text-tertiary font-bold">68.3%</span>
+<span class="block text-[10px] text-on-surface-variant">67W / 31L</span>
+</td>
+<td class="py-3 px-3 text-right text-error font-semibold">-4.6%</td>
+<td class="py-3 px-3 text-center">
+<span class="px-2 py-0.5 rounded-full bg-primary/20 text-primary font-label-caps text-label-caps font-bold">TAKE PROFIT</span>
+</td>
+</tr>
+<!-- Row 4: Bot 4 -->
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container-lowest/20">
+<td class="py-3 px-3">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>
+<div>
+<span class="font-bold text-on-surface">Bot #4: Meme Scalper High-Freq</span>
+<span class="block text-[11px] text-on-surface-variant font-label-code">Orderflow Imbalance 1m Delta</span>
+</div>
+</div>
+</td>
+<td class="py-3 px-3 text-right text-tertiary font-bold">+$2,370.00</td>
+<td class="py-3 px-3 text-right text-on-surface">60</td>
+<td class="py-3 px-3 text-right">
+<span class="text-tertiary font-bold">71.6%</span>
+<span class="block text-[10px] text-on-surface-variant">43W / 17L</span>
+</td>
+<td class="py-3 px-3 text-right text-error font-semibold">-1.8%</td>
+<td class="py-3 px-3 text-center">
+<span class="px-2 py-0.5 rounded-full bg-tertiary/20 text-tertiary font-label-caps text-label-caps font-bold">ĐANG CHẠY</span>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<!-- Sub-table 2: Breakdown by Asset Pair (4 cols) -->
+<div class="xl:col-span-4 bg-surface-container-low p-space-md rounded-xl shadow-md flex flex-col justify-between">
+<div>
+<div class="flex items-center justify-between mb-space-sm pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-secondary text-[20px]">pie_chart</span>
+<h3 class="font-headline-sm text-headline-sm text-on-surface font-bold">Tỷ Trọng Cặp Tiền</h3>
+</div>
+<span class="font-label-caps text-label-caps text-on-surface-variant uppercase">By Realized Profit</span>
+</div>
+<!-- Asset Progress Bars -->
+<div class="flex flex-col gap-space-sm mt-1">
+<!-- BTC/USDT -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface font-bold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-primary"></span>BTC/USDT Perpetual
+              </span>
+<span class="text-tertiary font-bold">+$20,119.12 (62%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-primary rounded-full w-[62%]"></div>
+</div>
+</div>
+<!-- ETH/USDT -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface font-bold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-secondary"></span>ETH/USDT Perpetual
+              </span>
+<span class="text-tertiary font-bold">+$7,788.05 (24%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-secondary rounded-full w-[24%]"></div>
+</div>
+</div>
+<!-- SOL/USDT -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface font-bold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-tertiary"></span>SOL/USDT Perpetual
+              </span>
+<span class="text-tertiary font-bold">+$3,245.02 (10%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-tertiary rounded-full w-[10%]"></div>
+</div>
+</div>
+<!-- Others -->
+<div class="flex flex-col gap-1">
+<div class="flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface font-bold flex items-center gap-1.5">
+<span class="w-2 h-2 rounded-full bg-outline"></span>DOGE &amp; Altcoins Khác
+              </span>
+<span class="text-tertiary font-bold">+$1,298.01 (4%)</span>
+</div>
+<div class="w-full h-2 rounded-full bg-surface-container-highest overflow-hidden">
+<div class="h-full bg-outline rounded-full w-[4%]"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Quick Telemetry Diagnostic Footnote -->
+<div class="mt-space-md p-space-sm bg-surface-container-lowest rounded-lg flex items-center justify-between font-label-code text-label-code">
+<span class="text-on-surface-variant">Tối ưu phí Maker rebate:</span>
+<span class="text-tertiary font-semibold">Tier VIP 4 (-0.005% maker)</span>
+</div>
+</div>
+</div>
+<!-- Detailed Trade Execution & Orders Audit Table -->
+<div class="bg-surface-container-low p-space-md rounded-xl shadow-md flex flex-col gap-space-sm">
+<!-- Table Header & Sub-filters -->
+<div class="flex flex-col lg:flex-row lg:items-center justify-between gap-space-sm pb-space-xs">
+<div class="flex items-center gap-space-sm">
+<span class="material-symbols-outlined text-primary text-[22px]">history_toggle_off</span>
+<div>
+<h2 class="font-headline-sm text-headline-sm text-on-surface font-bold">Sổ Nhật Ký Khớp Lệnh Chi Tiết (Futures Audit Log)</h2>
+<p class="font-body-sm text-body-sm text-on-surface-variant">Truy vết từng chuỗi mở/đóng vị thế theo Binance Client Order ID</p>
+</div>
+</div>
+<div class="flex flex-wrap items-center gap-space-sm">
+<!-- Search Field -->
+<div class="relative">
+<input class="bg-surface-container-lowest text-on-surface font-label-code text-label-code pl-8 pr-3 py-1.5 rounded-lg placeholder-on-surface-variant/50 focus:outline-none focus:bg-surface-container w-52" placeholder="Tìm ID lệnh, cặp, bot..." type="text"/>
+<span class="material-symbols-outlined absolute left-2 top-1/2 -translate-y-1/2 text-[16px] text-on-surface-variant">search</span>
+</div>
+<!-- Position Filter Buttons -->
+<div class="flex items-center bg-surface-container-lowest p-1 rounded-lg">
+<button class="px-2.5 py-1 rounded bg-surface-container-high text-primary font-label-code text-label-code font-bold shadow-xs" type="button">Tất Cả (584)</button>
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-tertiary font-label-code text-label-code transition-colors" type="button">Chỉ Chốt Lãi (TP)</button>
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-error font-label-code text-label-code transition-colors" type="button">Chỉ Cắt Lỗ (SL)</button>
+<button class="px-2.5 py-1 rounded text-on-surface-variant hover:text-on-surface font-label-code text-label-code transition-colors" type="button">Thanh Lý (0)</button>
+</div>
+</div>
+</div>
+<!-- Execution Data Table -->
+<div class="overflow-x-auto">
+<table class="w-full text-left font-metric-table text-metric-table">
+<thead>
+<tr class="text-on-surface-variant bg-surface-container-lowest font-label-code text-label-code uppercase tracking-wider">
+<th class="py-2.5 px-3 rounded-l">Thời Gian (UTC+7)</th>
+<th class="py-2.5 px-3">Cặp / Vị Thế</th>
+<th class="py-2.5 px-3">Bot Thực Thi</th>
+<th class="py-2.5 px-3 text-right">Entry / Exit</th>
+<th class="py-2.5 px-3 text-right">Quy Mô Hợp Đồng</th>
+<th class="py-2.5 px-3 text-right">Phí &amp; Funding</th>
+<th class="py-2.5 px-3 text-right">PnL Ròng &amp; ROE</th>
+<th class="py-2.5 px-3">Lý Do Đóng Lệnh</th>
+<th class="py-2.5 px-3 text-center rounded-r">Chi Tiết</th>
+</tr>
+</thead>
+<tbody class="divide-y-0">
+<!-- Row 1 -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">
+<span class="text-on-surface font-semibold block">15/12/2024</span>
+<span>14:32:08.120</span>
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-tertiary/20 text-tertiary font-label-code text-[11px] font-bold">LONG</span>
+<span class="font-bold text-on-surface">BTCUSDT</span>
+<span class="font-label-caps text-[9px] bg-surface-container-highest px-1 py-0.5 rounded text-primary">20x</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">Bot #1 (Grid 24/7)</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span class="block text-on-surface-variant font-normal text-[11px]">En: 98,420.50</span>
+<span class="text-tertiary font-semibold">Ex: 99,850.00</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span>$48,500.00</span>
+<span class="block text-[11px] text-on-surface-variant font-normal">0.49 BTC</span>
+</td>
+<td class="py-2.5 px-3 text-right font-label-code">
+<span class="text-outline">-$14.55</span>
+<span class="block text-tertiary text-[10px]">+$4.12 Fund</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value">
+<span class="text-tertiary font-bold">+$715.45</span>
+<span class="block text-[11px] text-tertiary font-normal">+29.48%</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-label-code text-[11px] font-medium">TP Grid Tier #12</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-primary transition-colors" title="Xem Binance TxID" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Row 2 -->
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container-lowest/20">
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">
+<span class="text-on-surface font-semibold block">15/12/2024</span>
+<span>13:10:45.882</span>
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-error/20 text-error font-label-code text-[11px] font-bold">SHORT</span>
+<span class="font-bold text-on-surface">ETHUSDT</span>
+<span class="font-label-caps text-[9px] bg-surface-container-highest px-1 py-0.5 rounded text-primary">15x</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">Bot #2 (ETH DCA)</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span class="block text-on-surface-variant font-normal text-[11px]">En: 3,940.20</span>
+<span class="text-tertiary font-semibold">Ex: 3,892.10</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span>$22,500.00</span>
+<span class="block text-[11px] text-on-surface-variant font-normal">5.78 ETH</span>
+</td>
+<td class="py-2.5 px-3 text-right font-label-code">
+<span class="text-outline">-$6.75</span>
+<span class="block text-tertiary text-[10px]">+$1.80 Fund</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value">
+<span class="text-tertiary font-bold">+$274.60</span>
+<span class="block text-[11px] text-tertiary font-normal">+18.30%</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-label-code text-[11px] font-medium">Trailing Stop Hit</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-primary transition-colors" title="Xem Binance TxID" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Row 3 (Stop Loss Row) -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">
+<span class="text-on-surface font-semibold block">15/12/2024</span>
+<span>11:45:12.310</span>
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-tertiary/20 text-tertiary font-label-code text-[11px] font-bold">LONG</span>
+<span class="font-bold text-on-surface">SOLUSDT</span>
+<span class="font-label-caps text-[9px] bg-surface-container-highest px-1 py-0.5 rounded text-primary">10x</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">Bot #3 (Momentum)</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span class="block text-on-surface-variant font-normal text-[11px]">En: 224.50</span>
+<span class="text-error font-semibold">Ex: 221.20</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span>$15,000.00</span>
+<span class="block text-[11px] text-on-surface-variant font-normal">66.8 SOL</span>
+</td>
+<td class="py-2.5 px-3 text-right font-label-code">
+<span class="text-outline">-$4.50</span>
+<span class="block text-outline-variant text-[10px]">-$0.45 Fund</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value">
+<span class="text-error font-bold">-$225.40</span>
+<span class="block text-[11px] text-error font-normal">-14.70%</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-error-container/30 text-error font-label-code text-[11px] font-medium">SL Hard Cutoff 1.5%</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-primary transition-colors" title="Xem Binance TxID" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Row 4 -->
+<tr class="hover:bg-surface-container/60 transition-colors bg-surface-container-lowest/20">
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">
+<span class="text-on-surface font-semibold block">15/12/2024</span>
+<span>09:20:01.004</span>
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-tertiary/20 text-tertiary font-label-code text-[11px] font-bold">LONG</span>
+<span class="font-bold text-on-surface">BTCUSDT</span>
+<span class="font-label-caps text-[9px] bg-surface-container-highest px-1 py-0.5 rounded text-primary">20x</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">Bot #1 (Grid 24/7)</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span class="block text-on-surface-variant font-normal text-[11px]">En: 97,950.00</span>
+<span class="text-tertiary font-semibold">Ex: 98,420.50</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span>$38,000.00</span>
+<span class="block text-[11px] text-on-surface-variant font-normal">0.38 BTC</span>
+</td>
+<td class="py-2.5 px-3 text-right font-label-code">
+<span class="text-outline">-$11.40</span>
+<span class="block text-tertiary text-[10px]">+$2.90 Fund</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value">
+<span class="text-tertiary font-bold">+$182.80</span>
+<span class="block text-[11px] text-tertiary font-normal">+9.62%</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-label-code text-[11px] font-medium">TP Grid Tier #11</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-primary transition-colors" title="Xem Binance TxID" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+<!-- Row 5 -->
+<tr class="hover:bg-surface-container/60 transition-colors">
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">
+<span class="text-on-surface font-semibold block">15/12/2024</span>
+<span>08:15:40.912</span>
+</td>
+<td class="py-2.5 px-3">
+<div class="flex items-center gap-1.5">
+<span class="px-1.5 py-0.5 rounded bg-tertiary/20 text-tertiary font-label-code text-[11px] font-bold">LONG</span>
+<span class="font-bold text-on-surface">DOGEUSDT</span>
+<span class="font-label-caps text-[9px] bg-surface-container-highest px-1 py-0.5 rounded text-primary">10x</span>
+</div>
+</td>
+<td class="py-2.5 px-3 text-on-surface-variant font-label-code">Bot #4 (Meme Scalper)</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span class="block text-on-surface-variant font-normal text-[11px]">En: 0.3840</span>
+<span class="text-tertiary font-semibold">Ex: 0.3985</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value text-on-surface">
+<span>$12,000.00</span>
+<span class="block text-[11px] text-on-surface-variant font-normal">31,250 DOGE</span>
+</td>
+<td class="py-2.5 px-3 text-right font-label-code">
+<span class="text-outline">-$3.60</span>
+<span class="block text-tertiary text-[10px]">+$0.85 Fund</span>
+</td>
+<td class="py-2.5 px-3 text-right font-metric-value text-metric-value">
+<span class="text-tertiary font-bold">+$453.12</span>
+<span class="block text-[11px] text-tertiary font-normal">+37.76%</span>
+</td>
+<td class="py-2.5 px-3">
+<span class="px-2 py-0.5 rounded bg-tertiary-container/20 text-tertiary font-label-code text-[11px] font-medium">Delta Spike Target</span>
+</td>
+<td class="py-2.5 px-3 text-center">
+<button class="p-1 rounded hover:bg-surface-container-highest text-on-surface-variant hover:text-primary transition-colors" title="Xem Binance TxID" type="button">
+<span class="material-symbols-outlined text-[18px]">open_in_new</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+<!-- Table Pagination Footer -->
+<div class="flex flex-col sm:flex-row items-center justify-between gap-space-sm pt-space-xs font-label-code text-label-code text-on-surface-variant">
+<div class="flex items-center gap-2">
+<span>Hiển thị</span>
+<select class="bg-surface-container-lowest text-on-surface px-2 py-1 rounded focus:outline-none">
+<option>10</option>
+<option>25</option>
+<option>50</option>
+<option>100</option>
+</select>
+<span>trên tổng số <strong class="text-on-surface">584</strong> lệnh giao dịch hoàn tất</span>
+</div>
+<div class="flex items-center gap-1">
+<button class="p-1 rounded bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container disabled:opacity-40" disabled="" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_left</span>
+</button>
+<button class="px-2.5 py-1 rounded bg-primary text-on-primary font-bold shadow-xs" type="button">1</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface transition-colors" type="button">2</button>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface transition-colors" type="button">3</button>
+<span class="px-1 text-outline">...</span>
+<button class="px-2.5 py-1 rounded bg-surface-container-lowest hover:bg-surface-container text-on-surface transition-colors" type="button">59</button>
+<button class="p-1 rounded bg-surface-container-lowest text-on-surface-variant hover:text-on-surface hover:bg-surface-container transition-colors" type="button">
+<span class="material-symbols-outlined text-[16px]">chevron_right</span>
+</button>
+</div>
+</div>
+</div>
+</div></main></div></body></html>
