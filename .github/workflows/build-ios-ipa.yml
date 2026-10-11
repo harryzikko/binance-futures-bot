@@ -34,11 +34,11 @@ jobs:
 
       - name: Sync Capacitor iOS
         working-directory: ./frontend
-        run: npx cap sync ios
+        run: npx cap sync ios --no-pod-install
 
       - name: Install CocoaPods Dependencies
         working-directory: ./frontend/ios/App
-        run: pod install
+        run: pod install --verbose
 
       - name: Build Xcode Archive (Unsigned)
         run: |
