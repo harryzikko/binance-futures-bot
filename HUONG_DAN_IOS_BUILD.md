@@ -73,7 +73,8 @@ Sau khi chạy lệnh `git push`, GitHub Actions sẽ tự động kích hoạt 
    - Đóng gói file `.app` vào thư mục `Payload` và nén thành **`BinanceFuturesBot-unsigned.ipa`**.
    - Tải file IPA lên mục **Artifacts**.
 4. Thời gian hoàn thành: khoảng 3 – 5 phút.
-5. Sau khi hoàn thành (dấu tích xanh), nhấn vào lượt chạy workflow > cuộn xuống mục **Artifacts** > nhấn vào **`BinanceFuturesBot.ipa`** để tải về máy tính hoặc iPhone.
+5. Sau khi hoàn thành (dấu tích xanh), nhấn vào lượt chạy workflow > cuộn xuống mục **Artifacts** > nhấn vào **`BinanceFuturesBot-unsigned.ipa`** để tải về máy tính hoặc iPhone.
+   - **Link lượt chạy thành công mới nhất**: [GitHub Actions Run #38154463581](https://github.com/harryzikko/binance-futures-bot/actions/runs/38154463581) (Chứa file artifact `BinanceFuturesBot-unsigned.ipa` sẵn sàng tải).
 
 ---
 
