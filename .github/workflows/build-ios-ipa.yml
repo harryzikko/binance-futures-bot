@@ -32,14 +32,13 @@ jobs:
         working-directory: ./frontend
         run: npm run build
 
-      - name: Install CocoaPods Dependencies
-        working-directory: ./frontend/ios/App
-        run: |
-          pod install --repo-update
-
       - name: Sync Capacitor iOS
         working-directory: ./frontend
         run: npx cap sync ios
+
+      - name: Install CocoaPods Dependencies
+        working-directory: ./frontend/ios/App
+        run: pod install
 
       - name: Build Xcode Archive (Unsigned)
         run: |
